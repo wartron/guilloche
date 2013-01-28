@@ -1,0 +1,52 @@
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script type="text/javascript" src="guilloche.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var canvas = document.getElementById('c');
+			var ctx = canvas.getContext('2d');
+			ctx.translate(400.5, 400.5);
+			ctx.strokeStyle='white'
+			//ctx.translate(0.5,0.5)
+			ctx.lineWidth = 0.5
+			g=Guilloche()
+
+			g.plot(ctx)
+		});
+	</script>
+	<style type="text/css">
+		body{
+			background:black;
+			color:white;
+		}
+		#header{
+			display:none;
+		}
+		.control{
+			width:25%;
+			float:left;
+			border:1px solid white;
+		}
+	</style>
+</head>
+<body>
+	<div id="header">
+		<div class="control">Scale</div>
+
+		<div class="control">Steps</div>
+
+		<div class="control">Multiplier</div>
+
+		<div class="control">Major</div>
+
+		<div class="control">Minor</div>
+
+		<div class="control">Radius</div>
+	</div>
+	<div id="main">
+		<canvas id="c" width="800" height="800"></canvas>
+	</div>
+</body>
+</html>
