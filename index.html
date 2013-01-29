@@ -36,9 +36,9 @@
 					step:1,
 					start:50},
 				{name:'minor',
-					scale:[0.01,0.5],
-					step:0.01,
-					start:0.25},
+					scale:[1,50],
+					step:1,
+					start:25},
 				{name:'radius',
 					scale:[0,100],
 					step:1,
@@ -73,7 +73,7 @@
 								g.set_R(values[1])
 							}
 							if(opt=="minor"){
-								g.set_r(values[1])
+								g.set_rr(values[1]/100)
 							}
 							if(opt=="radius"){
 								g.set_p(values[1])

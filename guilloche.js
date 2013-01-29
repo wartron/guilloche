@@ -2,7 +2,7 @@
 function Guilloche() {
 	var _steps = 300+Math.round(Math.random()*2400); // Divide a circle this many times
     var _R = 50; // The major ripple
-	var _r = 0.25; // The minor ripple
+	var _rr = 0.25; // The minor ripple
 	var _p = 25; // Radius type effect
 	var _m = 1; // Angle multiplier
 	var _amplitude = 4.5; // Scale of final drawing
@@ -21,9 +21,9 @@ function Guilloche() {
 		var sl = 0;
 		var theta = 0;
 		var thetaStep = 2 * Math.PI / _steps;
-		var s = (_R + _r) / _r;
-		var rR = _r + _R;
-		var rp = _r + _p;
+		var s = (_R + _rr) / _rr;
+		var rR = _rr + _R;
+		var rp = _rr + _p;
 
 		var cpl = colorPalette.length;
 		var c = _color1;
@@ -115,11 +115,11 @@ function Guilloche() {
 	/**
 	 *	Get and set r value - the minor ripple effect
 	 */
-	this.get_r = function() {
-		return _r;
+	this.get_rr = function() {
+		return _rr;
 	}
-	this.set_r = function(value) {
-		if(value !== _r) _r = value;
+	this.set_rr = function(value) {
+		if(value !== _rr) _rr = value;
 	}
 
 	/**
