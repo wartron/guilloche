@@ -2,18 +2,95 @@
 <head>
 	<title></title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.nouislider.js"></script>
 	<script type="text/javascript" src="guilloche.js"></script>
 	<script type="text/javascript">
 		$(function() {
 			var canvas = document.getElementById('c');
 			var ctx = canvas.getContext('2d');
-			ctx.translate(400.5, 400.5);
+			ctx.canvas.width  = window.innerWidth;
+  			ctx.canvas.height = window.innerHeight;
+			ctx.translate((ctx.canvas.width/2)+0.5, (ctx.canvas.height/2)+0.5);
 			ctx.strokeStyle='white'
 			//ctx.translate(0.5,0.5)
 			ctx.lineWidth = 0.5
 			g=Guilloche()
 
 			g.plot(ctx)
+
+			var opts = [
+				{name:'scale',
+					scale:[1,10],
+					step:1,
+					start:3},
+				{name:'steps',
+					scale:[300,3000],
+					step:10,
+					start:600},
+				{name:'multi',
+					scale:[1,20],
+					step:1,
+					start:4},
+				{name:'major',
+					scale:[0,100],
+					step:1,
+					start:50},
+				{name:'minor',
+					scale:[0.01,0.5],
+					step:0.01,
+					start:0.25},
+				{name:'radius',
+					scale:[0,100],
+					step:1,
+					start:33},
+			];
+			for(var i=0;i<opts.length;i++){
+				var slide_id = "#"+opts[i].name+"_slide";
+				$(slide_id).noUiSlider('init', {
+					handles: 1,
+					connect: "lower",
+					scale: opts[i].scale,
+					start: opts[i].start,
+					step: opts[i].step,
+					change:
+						function(){
+						
+							var values = $(this).noUiSlider( 'value' );
+							var opt = $(this).attr('opt');
+							var slide_val_id = "#"+opt+"_slide_val";
+
+							$(slide_val_id).text(values[1]);
+							if(opt=="scale"){
+								g.set_amplitude(values[1])
+							}
+							if(opt=="steps"){
+								g.set_steps(values[1])
+							}
+							if(opt=="multi"){
+								g.set_m(values[1]/4)
+							}
+							if(opt=="major"){
+								g.set_R(values[1])
+							}
+							if(opt=="minor"){
+								g.set_r(values[1])
+							}
+							if(opt=="radius"){
+								g.set_p(values[1])
+							}
+
+							ctx.clearRect (-1*(window.innerWidth/2)-1,-1*(window.innerHeight/2)-1,window.innerWidth+2,window.innerHeight+2);
+							g.plot(ctx)
+						
+						},
+
+				})
+			}
+
+
+
+
+
 		});
 	</script>
 	<style type="text/css">
@@ -21,33 +98,56 @@
 			background:black;
 			color:white;
 		}
-		#header{
-			display:none;
+		html, body {
+			width:  100%;
+			height: 100%;
+			margin: 0px;
 		}
-		.control{
-			width:25%;
-			float:left;
+		#header{
+			position:absolute;
+			top:10px;
+			left:10px;
 			border:1px solid white;
 		}
-		#c{
+		.control{
+			width:202px;
+			margin:10px;
+			
+		}
+		#cc{
 			display: block;
 			margin:auto;
 		}
 	</style>
+
+	<link href="nouislider.css" rel="stylesheet">
+
 </head>
 <body>
 	<div id="header">
-		<div class="control">Scale</div>
+		<div class="control">Scale - <span id="scale_slide_val">25</span>
+			<div id="scale_slide" class="noUiSlider" opt="scale"></div>
+		</div>
 
-		<div class="control">Steps</div>
+		<div class="control">Steps - <span id="steps_slide_val">25</span>
+			<div id="steps_slide" class="noUiSlider" opt="steps"></div>
+		</div>
 
-		<div class="control">Multiplier</div>
+		<div class="control">Multiplier - <span id="multi_slide_val">25</span>
+			<div id="multi_slide" class="noUiSlider" opt="multi"></div>
+		</div>
 
-		<div class="control">Major</div>
+		<div class="control">Major - <span id="major_slide_val">25</span>
+			<div id="major_slide" class="noUiSlider" opt="major"></div>
+		</div>
 
-		<div class="control">Minor</div>
+		<div class="control">Minor - <span id="minor_slide_val">25</span>
+			<div id="minor_slide" class="noUiSlider" opt="minor"></div>
+		</div>
 
-		<div class="control">Radius</div>
+		<div class="control">Radius - <span id="radius_slide_val">25</span>
+			<div id="radius_slide" class="noUiSlider" opt="radius"></div>
+		</div>
 	</div>
 	<div id="main">
 		<canvas id="c" width="800" height="800"></canvas>
