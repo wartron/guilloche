@@ -20,9 +20,9 @@
 
 			var opts = [
 				{name:'scale',
-					scale:[1,10],
+					scale:[1,200],
 					step:1,
-					start:3},
+					start:45},
 				{name:'steps',
 					scale:[300,3000],
 					step:10,
@@ -44,6 +44,38 @@
 					step:1,
 					start:33},
 			];
+
+			var update = function(){
+			
+				var values = $(this).noUiSlider( 'value' );
+				var opt = $(this).attr('opt');
+				var slide_val_id = "#"+opt+"_slide_val";
+
+				$(slide_val_id).text(values[1]);
+				if(opt=="scale"){
+					g.set_amplitude(values[1]/10)
+				}
+				if(opt=="steps"){
+					g.set_steps(values[1])
+				}
+				if(opt=="multi"){
+					g.set_m(values[1]/4)
+				}
+				if(opt=="major"){
+					g.set_R(values[1])
+				}
+				if(opt=="minor"){
+					g.set_rr(values[1]/100)
+				}
+				if(opt=="radius"){
+					g.set_p(values[1])
+				}
+
+				ctx.clearRect (-1*(window.innerWidth/2)-1,-1*(window.innerHeight/2)-1,window.innerWidth+2,window.innerHeight+2);
+				g.plot(ctx)
+						
+			}
+
 			for(var i=0;i<opts.length;i++){
 				var slide_id = "#"+opts[i].name+"_slide";
 				$(slide_id).noUiSlider('init', {
@@ -52,37 +84,7 @@
 					scale: opts[i].scale,
 					start: opts[i].start,
 					step: opts[i].step,
-					change:
-						function(){
-						
-							var values = $(this).noUiSlider( 'value' );
-							var opt = $(this).attr('opt');
-							var slide_val_id = "#"+opt+"_slide_val";
-
-							$(slide_val_id).text(values[1]);
-							if(opt=="scale"){
-								g.set_amplitude(values[1])
-							}
-							if(opt=="steps"){
-								g.set_steps(values[1])
-							}
-							if(opt=="multi"){
-								g.set_m(values[1]/4)
-							}
-							if(opt=="major"){
-								g.set_R(values[1])
-							}
-							if(opt=="minor"){
-								g.set_rr(values[1]/100)
-							}
-							if(opt=="radius"){
-								g.set_p(values[1])
-							}
-
-							ctx.clearRect (-1*(window.innerWidth/2)-1,-1*(window.innerHeight/2)-1,window.innerWidth+2,window.innerHeight+2);
-							g.plot(ctx)
-						
-						},
+					change: update,
 
 				})
 			}
